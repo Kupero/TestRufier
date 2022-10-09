@@ -7,7 +7,6 @@ class ThirdWindow(QWidget):
         super().__init__()
         self.set_appear()
         self.initUI()
-        self.connects()
         self.show()
 
     def set_appear(self):
@@ -16,6 +15,11 @@ class ThirdWindow(QWidget):
         self.move(win_x, win_y)
 
     def initUI(self):
-        pass
-    def connects(self):
-        pass
+        self.lb_work = QLabel('Роботоспособность')
+        self.lb_index = QLabel('index')
+
+        self.v_line = QVBoxLayout()
+        self.v_line.addWidget(self.lb_index, alignment = Qt.AlignCenter)
+        self.v_line.addWidget(self.lb_work, alignment = Qt.AlignCenter)
+
+        self.setLayout(self.v_line)

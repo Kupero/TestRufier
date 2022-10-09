@@ -1,7 +1,8 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTime, QTimer
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QLineEdit
 from instr import *
 from PyQt5.QtGui import QFont
+from thirdWindow import *
 
 class SecondWindow(QWidget):
     def __init__(self):
@@ -61,4 +62,59 @@ class SecondWindow(QWidget):
         self.setLayout(self.h_line)
 
     def connects(self):
-        pass
+        self.btn_next.clicked.connect(self.next_window)
+        self.btn_test1.clicked.connect(self.timer1)
+        self.btn_test2.clicked.connect(self.timer2)
+        self.btn_test3.clicked.connect(self.timer3)
+
+    def next_window(self):
+        self.hide()
+        self.win_3 = ThirdWindow()
+
+    def timer1(self):
+        self.time = QTime(0, 0, 15)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer1_event)
+        self.timer.start(1000)
+    
+    def timer1_event(self):
+        self.time = self.time.addSecs(-1)
+        self.Lb_timer.setText(self.time.toString('hh:mm:ss'))
+        self.Lb_timer.setFont(QFont('Times', 36, QFont.Bold))
+        self.Lb_timer.setStyleSheet('color: rgb(0,0,0);')
+        if self.time.toString('hh:mm:ss') =='00:00:00':
+            self.timer.stop()
+
+    def timer2(self):
+        self.time = QTime(0, 0, 30)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer2_event)
+        self.timer.start(1500)
+    
+    def timer2_event(self):
+        self.time = self.time.addSecs(-1)
+        self.Lb_timer.setText(self.time.toString('hh:mm:ss')[6:8])
+        self.Lb_timer.setFont(QFont('Times', 36, QFont.Bold))
+        self.Lb_timer.setStyleSheet('color: rgb(0, 100, 0);')
+        if self.time.toString('hh:mm:ss') == '00:00:00':
+            self.timer.stop()
+
+    def timer3(self):
+        self.time = QTime(0, 1, 0)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer3_event)
+        self.timer.start(1000)
+    
+
+    def timer3_event(self):
+        self.time = self.time.addSecs(-1)
+        self.Lb_timer.setText(self.time.toString('hh:mm:ss'))
+        self.Lb_timer.setFont(QFont('Times', 36, QFont.Bold))
+        if int(self.time.toString('hh:mm:ss')[6:8]) >= 45:
+            self.Lb_timer.setStyleSheet('color: rgb(0, 200, 0);')
+        elif int(self.time.toString('hh:mm:ss')[6:8]) <= 15:
+            self.Lb_timer.setStyleSheet('color: rgb(0, 200, 0);')
+        else:
+            self.Lb_timer.setStyleSheet('color: rgb(0, 0, 0);')
+        if self.time.toString('hh:mm:ss') == '00:00:00':
+            self.timer.stop()

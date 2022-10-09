@@ -35,6 +35,7 @@ class MainWindow(QWidget):
     def next_window(self):
         self.hide()
         self.sec_win = SecondWindow()
+    
 
 app = QApplication([])
 mainWindow = MainWindow()
